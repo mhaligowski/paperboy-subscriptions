@@ -11,5 +11,7 @@ func init() {
 	router.HandleFunc("/subscriptions", handleGetSubscriptions).
 		Methods(http.MethodGet)
 
+	router.HandleFunc("/subscriptions", handlePostSubscriptions).
+		Methods(http.MethodPost)
 	http.Handle("/", router)
 }
