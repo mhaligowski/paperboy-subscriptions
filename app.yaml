@@ -2,7 +2,7 @@ runtime: go
 api_version: go1
 service: subscriptions
 handlers:
-    - url: /users/(.*)/subscriptions
+    - url: /subscriptions
       script: _go_app
 
 
