@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func init() {
+func Run() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/subscriptions", handleGetSubscriptions).
@@ -13,5 +13,6 @@ func init() {
 
 	router.HandleFunc("/subscriptions", handlePostSubscriptions).
 		Methods(http.MethodPost)
+
 	http.Handle("/", router)
 }
