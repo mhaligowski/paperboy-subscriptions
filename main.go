@@ -3,6 +3,7 @@ package subscriptions
 import (
 	"github.com/gorilla/mux"
 	"net/http"
+	"github.com/rs/cors"
 )
 
 func Run() {
@@ -14,5 +15,5 @@ func Run() {
 	router.HandleFunc("/subscriptions", handlePostSubscriptions).
 		Methods(http.MethodPost)
 
-	http.Handle("/", router)
+	http.Handle("/", cors.Default().Handler(router))
 }
