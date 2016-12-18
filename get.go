@@ -14,13 +14,28 @@ func handleGetSubscriptions(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 
 	feedId := r.FormValue("feed_id")
-	if feedId == "" {
-		http.Error(w, "Needs feed_id to find subscriptions", http.StatusBadRequest)
+	userId := r.FormValue("user_id")
+	if feedId == "" && userId == "" {
+		http.Error(w,
+			"Needs feed_id or user_id to find subscriptions",
+			http.StatusBadRequest)
+		return
+	} else if feedId != "" && userId != "" {
+		http.Error(w,
+			"Needs exactly one of feed_id or user_id to find subscriptions",
+			http.StatusBadRequest)
 		return
 	}
 
-	query := datastore.NewQuery("Subscription").
-		Filter("FeedId = ", feedId)
+	var query *datastore.Query
+
+	if feedId != "" {
+		query = datastore.NewQuery("Subscription").
+			Filter("FeedId = ", feedId)
+	} else {
+		query = datastore.NewQuery("Subscription").
+			Filter("UserId = ", userId)
+	}
 
 	s := []Subscription{}
 
